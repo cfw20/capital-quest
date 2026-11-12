@@ -20,6 +20,11 @@
     body[data-theme="forest"] { --teal:#14351f; --teal-2:#1f5a32; --bg1:#0b1f12; --bg2:#14351f; --bg3:#1f5a32; --mint:#8bd46a; --gold:#e6c35c; --blob-a:#8bd46a; --blob-b:#e6c35c; }
     body[data-theme="neon"] { --teal:#1a1030; --teal-2:#3a1a6e; --bg1:#0c0718; --bg2:#1a1030; --bg3:#3a1a6e; --mint:#d65cff; --gold:#5cffb0; --blob-a:#d65cff; --blob-b:#5cffb0; }
     body[data-theme="midnight"] { --teal:#0a0a0f; --teal-2:#1a1a28; --bg1:#05050a; --bg2:#0a0a0f; --bg3:#1a1a28; --mint:#ffc857; --gold:#ffc857; --cream:#f4ead0; --blob-a:#ffc857; --blob-b:#c9a227; }
+    body[data-theme="aurora"] { --teal:#12343d; --teal-2:#1a5a58; --bg1:#071824; --bg2:#12343d; --bg3:#1e5d56; --mint:#7fffd4; --gold:#c5a3ff; --blob-a:#7fffd4; --blob-b:#c5a3ff; }
+    body[data-theme="volcano"] { --teal:#3a0c0c; --teal-2:#7a1f12; --bg1:#1a0505; --bg2:#3a0c0c; --bg3:#7a1f12; --mint:#ff7a18; --gold:#ffc857; --blob-a:#ff7a18; --blob-b:#ff3b1a; }
+    body[data-theme="candy"] { --teal:#6a1e4b; --teal-2:#c44b8a; --bg1:#3a102c; --bg2:#6a1e4b; --bg3:#c44b8a; --mint:#ff8ec8; --gold:#ffe08a; --cream:#fff5fb; --blob-a:#ff8ec8; --blob-b:#ffe08a; }
+    body[data-theme="space"] { --teal:#0b1020; --teal-2:#1a2450; --bg1:#050714; --bg2:#0b1020; --bg3:#1a2450; --mint:#7ab8ff; --gold:#e8d27a; --blob-a:#7ab8ff; --blob-b:#b07aff; }
+    body[data-theme="royal"] { --teal:#2a1a08; --teal-2:#5a3a10; --bg1:#140e06; --bg2:#2a1a08; --bg3:#5a3a10; --mint:#e6c35c; --gold:#ffd978; --cream:#fff6d8; --blob-a:#ffd978; --blob-b:#c9a227; }
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
@@ -38,13 +43,33 @@
     .wrap { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 20px 16px 48px; min-height: 100dvh; display: flex; flex-direction: column; }
     header.top { display: flex; align-items: center; justify-content: space-between; color: var(--cream); margin-bottom: 6px; gap: 8px; }
     .brand { display: flex; align-items: center; gap: 10px; font-family: Fredoka, Nunito, sans-serif; font-weight: 700; font-size: 1.15rem; }
-    .mascot { width: 42px; height: 42px; display: grid; place-items: center; font-size: 28px; transform-origin: 50% 80%; animation: bob 2.4s ease-in-out infinite; }
+    .mascot { width: 42px; height: 42px; display: grid; place-items: center; font-size: 28px; transform-origin: 50% 80%; animation: bob 2.4s ease-in-out infinite; position: relative; }
     .mascot.yes { animation: hop .6s ease; } .mascot.no { animation: wiggle .5s ease; }
+    .mascot.aura-gold { filter: drop-shadow(0 0 8px #ffd978) drop-shadow(0 0 14px #ffc857); }
+    .mascot.aura-ice { filter: drop-shadow(0 0 8px #8fe8ff) drop-shadow(0 0 14px #5ad4ff); }
+    .mascot.aura-fire { filter: drop-shadow(0 0 8px #ff7a18) drop-shadow(0 0 14px #ff3b1a); }
+    .mascot.aura-rainbow { animation: bob 2.4s ease-in-out infinite, prism 2.8s linear infinite; }
+    .mascot.aura-storm { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #7ab8ff); animation: bob 2.4s ease-in-out infinite, storm 1.2s ease infinite; }
+    @keyframes prism { 0%{ filter: drop-shadow(0 0 10px #ff6b6b); } 25%{ filter: drop-shadow(0 0 10px #ffc857); } 50%{ filter: drop-shadow(0 0 10px #2ec4b6); } 75%{ filter: drop-shadow(0 0 10px #9b5de5); } 100%{ filter: drop-shadow(0 0 10px #ff6b6b); } }
+    @keyframes storm { 0%,100%{ filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 10px #7ab8ff); } 40%{ filter: drop-shadow(0 0 16px #fff) drop-shadow(0 0 22px #5ad4ff); } }
     @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-6px) rotate(6deg); } }
     @keyframes hop { 0% { transform: scale(1); } 40% { transform: scale(1.25) translateY(-14px); } 100% { transform: scale(1); } }
     @keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-16deg); } 75% { transform: rotate(16deg); } }
     .hud-right { display: flex; align-items: center; gap: 8px; }
-    .coinpill { background: rgba(255,247,232,.14); color: var(--cream); border-radius: 999px; padding: 6px 10px; font-weight: 800; font-size: .9rem; }
+    .coinpill { background: rgba(255,247,232,.14); color: var(--cream); border-radius: 999px; padding: 6px 10px; font-weight: 800; font-size: .9rem; white-space: nowrap; }
+    .coinpill.gems { background: rgba(155,93,229,.28); }
+    .titleline { color: var(--gold); font-family: Fredoka, sans-serif; margin: 0 0 8px; font-size: 1.05rem; }
+    .loadout { color: #dbeee8; margin: 0 0 14px; font-weight: 700; font-size: .92rem; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .rarity { font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 800; }
+    .rarity.rare { color: #5a4ad4; } .rarity.legendary { color: #b06a00; } .rarity.common,.rarity.starter { color: var(--muted); }
+    .node.rec { box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+    .node .meta { display: block; font-size: .68rem; color: var(--muted); font-weight: 700; margin-top: 2px; }
+    .card[data-card="gold"] { box-shadow: 0 0 0 3px #e6c35c, var(--shadow); }
+    .card[data-card="wood"] { background: #f3e6c8; }
+    .card[data-card="holo"] { background: linear-gradient(135deg,#fff 0%,#e7f0ff 35%,#ffe8fb 70%,#fff 100%); }
+    .card[data-card="marble"] { background: #f6f3ee; background-image: radial-gradient(circle at 20% 20%, rgba(0,0,0,.04), transparent 40%), radial-gradient(circle at 80% 80%, rgba(0,0,0,.05), transparent 40%); }
+    .card[data-card="royal"] { box-shadow: 0 0 0 3px #c9a227, 0 0 0 7px #fff, var(--shadow); background: #fff8e6; }
     .icon-btn { appearance: none; border: 0; background: rgba(255,247,232,.12); color: var(--cream); width: 42px; height: 42px; border-radius: 12px; font-size: 18px; cursor: pointer; }
     .icon-btn:hover { background: rgba(255,247,232,.22); }
     .screen { display: none; flex: 1; } .screen.on { display: flex; flex-direction: column; }
@@ -143,6 +168,7 @@
       <div class="brand"><span class="mascot" id="mascot" aria-hidden="true">🌍</span> Capital Quest</div>
       <div class="hud-right">
         <div class="coinpill" id="coinHud" title="Coins">🪙 0</div>
+        <div class="coinpill gems" id="gemHud" title="Gems">💎 0</div>
         <button class="icon-btn" id="muteBtn" type="button" aria-label="Mute sounds">🔊</button>
       </div>
     </header>
@@ -150,11 +176,13 @@
     <section class="screen on" id="home">
       <h1>Learn the world. Climb the atlas.</h1>
       <p class="rank" id="rankLine"></p>
-      <p class="lede">67 levels across five worlds, getting much harder as you go. Earn coins, buy upgrades, and chase three stars.</p>
+      <p class="titleline hide" id="titleLine"></p>
+      <p class="loadout" id="loadoutLine"></p>
+      <p class="lede">Pick any of the 67 levels whenever you like. Earn coins and gems, then spend them on a deeper shop of help, upgrades, and looks.</p>
       <div class="panel">
         <div class="btnrow">
           <button class="primary" id="continueBtn" type="button">Continue</button>
-          <button class="soft" id="levelsBtn" type="button">Level select</button>
+          <button class="soft" id="levelsBtn" type="button">Choose a level</button>
           <button class="soft" id="shopBtn" type="button">Shop & upgrades</button>
           <button class="soft" id="practiceBtn" type="button">Free practice</button>
         </div>
@@ -246,6 +274,10 @@
             <button class="soft" type="button" id="usePeek">👀</button>
             <button class="soft" type="button" id="useChance">🍀</button>
             <button class="soft" type="button" id="useTime">⏱️</button>
+            <button class="soft" type="button" id="useFreeze">❄️</button>
+            <button class="soft" type="button" id="useFlex">🖊️</button>
+            <button class="soft" type="button" id="useSpark">✨</button>
+            <button class="soft" type="button" id="useMagnet">🧲</button>
           </div>
         </div>
         <div class="feedback" id="feedback" aria-live="polite"></div>
@@ -294,7 +326,15 @@
     const SAVE_KEY = "cq-adventure-v1";
     const MASTERY = "cq-mastery-v2";
     const TITLES = ["Sprout","Seedling","Scout","Navigator","Cartographer","Explorer","Pathfinder","Atlas Ace","Globe Master","Capital Legend"];
-    const MASCOT_EMOJI = { globe:"🌍", chili:"🌶️", carrot:"🥕", panda:"🐼", rocket:"🚀", dragon:"🐲" };
+    const MASCOT_EMOJI = { globe:"🌍", chili:"🌶️", carrot:"🥕", panda:"🐼", rocket:"🚀", dragon:"🐲", owl:"🦉", fox:"🦊", unicorn:"🦄", phoenix:"🔥", robot:"🤖" };
+    const TITLE_NAME = { none:"", scout:"Map Scout", knight:"Capital Knight", sage:"Atlas Sage", legend:"Living Legend" };
+    const MAP_PAL = {
+      classic: { bg:"#cfe8ea", grid:"#9cc4c8", same:"#0b3d4a", other:"#5a7c82", pin:"#e35d2a", ring:"#ffc857", wrap:"#cfe8ea" },
+      night: { bg:"#0d1b2a", grid:"#1b3a4a", same:"#5ad4ff", other:"#3d5a66", pin:"#ffc857", ring:"#ffe08a", wrap:"#0d1b2a" },
+      parchment: { bg:"#edd9b0", grid:"#c9a36b", same:"#6b3a1f", other:"#a07a4a", pin:"#8a1f1f", ring:"#5a3a1a", wrap:"#edd9b0" },
+      neonmap: { bg:"#070b12", grid:"#2a8f6a", same:"#5cffb0", other:"#2a4a40", pin:"#d65cff", ring:"#5cffb0", wrap:"#070b12" },
+      treasure: { bg:"#d7c18a", grid:"#8a6a32", same:"#5a3a10", other:"#9a7a40", pin:"#c0471a", ring:"#fff3c0", wrap:"#d7c18a" },
+    };
     const MODES = [{id:"learn", label:"Learn, then type"}, {id:"quiz", label:"Quiz only"}];
     const PACKS = [
       {id:"starter", label:"Starter pack (30)"}, {id:"school", label:"School pack (81)"},
@@ -317,17 +357,31 @@
 
     function defaultSave() {
       return {
-        coins: 0, xp: 0, stars: {}, badges: [],
-        inv: { hint:0, peek:0, chance:0, time:0 },
-        perks: { lucky:false, whisper:false, slow:false },
-        owned: { themes:["classic"], mascots:["globe"], confetti:["standard"] },
-        equipped: { theme:"classic", mascot:"globe", confetti:"standard" },
+        coins: 0, gems: 0, xp: 0, stars: {}, badges: [],
+        inv: { hint:0, peek:0, chance:0, time:0, freeze:0, flex:0, spark:0, magnet:0 },
+        upgrades: { lucky:0, whisper:0, slow:0, magnetup:0, scholar:0, safety:0, freepeek:0, starmine:0 },
+        owned: { themes:["classic"], mascots:["globe"], confetti:["standard"], auras:["none"], cards:["plain"], maps:["classic"], titles:["none"], sounds:["classic"] },
+        equipped: { theme:"classic", mascot:"globe", confetti:"standard", aura:"none", card:"plain", map:"classic", title:"none", sound:"classic" },
         chests: [],
       };
     }
     function loadSave() {
-      try { return Object.assign(defaultSave(), JSON.parse(localStorage.getItem(SAVE_KEY) || "{}"), {}); }
-      catch { return defaultSave(); }
+      const d = defaultSave();
+      let raw = {};
+      try { raw = JSON.parse(localStorage.getItem(SAVE_KEY) || "{}"); } catch { return d; }
+      const s = Object.assign({}, d, raw);
+      s.inv = Object.assign({}, d.inv, raw.inv || {});
+      s.upgrades = Object.assign({}, d.upgrades, raw.upgrades || {});
+      s.owned = Object.assign({}, d.owned);
+      Object.keys(d.owned).forEach((k) => { s.owned[k] = Array.from(new Set([...(d.owned[k]||[]), ...((raw.owned||{})[k]||[])])); });
+      s.equipped = Object.assign({}, d.equipped, raw.equipped || {});
+      if (raw.perks) {
+        if (raw.perks.lucky) s.upgrades.lucky = Math.max(s.upgrades.lucky||0, 1);
+        if (raw.perks.whisper) s.upgrades.whisper = Math.max(s.upgrades.whisper||0, 1);
+        if (raw.perks.slow) s.upgrades.slow = Math.max(s.upgrades.slow||0, 1);
+      }
+      s.gems = s.gems || 0;
+      return s;
     }
     let save = loadSave();
     function persist() { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); refreshHud(); }
@@ -343,16 +397,8 @@
     function keyOf(w, idx) { return w.id + "-" + (idx+1); }
     function worldById(id) { return CAMPAIGN.worlds.find((w) => w.id === id); }
     function prevWorld(w) { const i = CAMPAIGN.worlds.findIndex((x) => x.id === w.id); return i>0 ? CAMPAIGN.worlds[i-1] : null; }
-    function isWorldOpen(w) {
-      if (w.id === 1) return true;
-      const p = prevWorld(w); if (!p) return true;
-      return (save.stars[keyOf(p, p.levels.length-1)] || 0) >= 1;
-    }
-    function isLevelOpen(w, idx) {
-      if (!isWorldOpen(w)) return false;
-      if (idx === 0) return true;
-      return (save.stars[keyOf(w, idx-1)] || 0) >= 1;
-    }
+    function isWorldOpen(w) { return true; }
+    function isLevelOpen(w, idx) { return true; }
     function firstOpenUnstarred() {
       for (const w of CAMPAIGN.worlds) {
         for (let i=0;i<w.levels.length;i++) {
@@ -371,7 +417,10 @@
 
     function refreshHud() {
       $("coinHud").textContent = "🪙 " + save.coins;
-      $("mascot").textContent = MASCOT_EMOJI[save.equipped.mascot] || "🌍";
+      $("gemHud").textContent = "💎 " + (save.gems||0);
+      const m = $("mascot");
+      m.textContent = MASCOT_EMOJI[save.equipped.mascot] || "🌍";
+      m.className = "mascot" + (save.equipped.aura && save.equipped.aura!=="none" ? " aura-"+save.equipped.aura : "");
       document.body.setAttribute("data-theme", save.equipped.theme || "classic");
       $("muteBtn").textContent = state.muted ? "🔇" : "🔊";
     }
@@ -382,92 +431,144 @@
       const lv = nxt.w.levels[nxt.i];
       const done = totalStars();
       $("rankLine").textContent = playerTitle() + "  ·  Level " + playerLevel() + "  ·  " + done + "/" + maxStars() + " stars";
+      const t = TITLE_NAME[save.equipped.title] || "";
+      $("titleLine").textContent = t ? ("“" + t + "”") : "";
+      $("titleLine").classList.toggle("hide", !t);
+      const shop = CAMPAIGN.shop;
+      const theme = (shop.themes.find((x)=>x.id===save.equipped.theme)||{}).name || save.equipped.theme;
+      $("loadoutLine").textContent = (MASCOT_EMOJI[save.equipped.mascot]||"🌍") + "  " + theme + "  ·  coins " + save.coins + "  ·  gems " + (save.gems||0);
       const allDone = Object.keys(save.stars).length >= totalLevels();
       $("continueBtn").textContent = allDone ? ("Replay " + lv.name) : ("Continue: " + nxt.w.name + " — " + lv.name);
       refreshHud();
     }
 
+    function kindLabel(lv) {
+      if (lv.boss) return "Boss";
+      if (lv.kind==="timed") return "Timed " + lv.timer + "s";
+      if (lv.kind==="blitz") return "Blitz " + lv.timer + "s";
+      if (lv.kind==="strict") return "Strict spelling";
+      if (lv.kind==="quiz") return "Quiz";
+      return "Learn";
+    }
     function renderWorlds() {
-      $("worldsSub").textContent = totalStars() + " of " + maxStars() + " stars";
+      const rec = firstOpenUnstarred();
+      $("worldsSub").textContent = "Choose any level — all 67 are open. " + totalStars() + " of " + maxStars() + " stars so far.";
       const box = $("worldsList"); box.innerHTML = "";
       CAMPAIGN.worlds.forEach((w) => {
-        const open = isWorldOpen(w);
-        const div = document.createElement("div");
-        div.className = "world" + (open ? "" : " locked");
+        const div = document.createElement("div"); div.className = "world";
         const earned = w.levels.reduce((n,_,i) => n + (save.stars[keyOf(w,i)]||0), 0);
         const h = document.createElement("h3");
-        h.textContent = (open ? "" : "🔒 ") + w.name + "  ·  " + earned + "/" + (w.levels.length*3);
-        const p = document.createElement("p"); p.className="sub"; p.textContent = open ? w.blurb : "Beat the previous world’s boss to unlock this.";
+        h.textContent = w.name + "  ·  " + earned + "/" + (w.levels.length*3);
+        const p = document.createElement("p"); p.className="sub"; p.textContent = w.blurb;
         const nodes = document.createElement("div"); nodes.className="nodes";
         w.levels.forEach((lv, i) => {
           const b = document.createElement("button");
-          b.type="button"; b.className="node" + (lv.boss ? " boss" : "");
+          b.type="button";
           const st = save.stars[keyOf(w,i)] || 0;
-          const unlocked = isLevelOpen(w,i);
-          b.disabled = !unlocked;
-          b.innerHTML = "<span class='n'>" + (lv.boss ? "★" : (i+1)) + "</span>" + lv.name + "<div class='stars'>" + (unlocked ? "★".repeat(st) + "☆".repeat(3-st) : "—") + "</div>";
-          if (unlocked) b.addEventListener("click", () => startCampaign(w, i));
+          const isRec = rec.w.id===w.id && rec.i===i;
+          b.className="node" + (lv.boss ? " boss" : "") + (isRec ? " rec" : "");
+          b.innerHTML = "<span class='n'>" + (lv.boss ? "★" : (i+1)) + "</span>" + lv.name + "<span class='meta'>" + kindLabel(lv) + " · " + lv.codes.length + " Q</span><div class='stars'>" + "★".repeat(st) + "☆".repeat(3-st) + "</div>";
+          b.addEventListener("click", () => startCampaign(w, i));
           nodes.appendChild(b);
         });
         div.append(h,p,nodes); box.appendChild(div);
       });
     }
 
+    function canPay(price, gems) { return save.coins >= (price||0) && (save.gems||0) >= (gems||0); }
+    function pay(price, gems) { save.coins -= (price||0); save.gems = (save.gems||0) - (gems||0); }
+    function priceLabel(price, gems) {
+      const parts = [];
+      if (price) parts.push("🪙 " + price);
+      if (gems) parts.push("💎 " + gems);
+      return parts.join("  ") || "Free";
+    }
+    let shopTab = "help";
     function renderShop() {
-      $("shopCoins").textContent = "You have " + save.coins + " coins. Buy help for hard levels, or dress the game up.";
+      $("shopCoins").textContent = "🪙 " + save.coins + " coins   ·   💎 " + (save.gems||0) + " gems. Coins come from playing; gems come from 3-star runs, bosses, and world chests.";
       const shop = CAMPAIGN.shop;
       const panel = $("shopPanel"); panel.innerHTML = "";
-      const addSec = (title) => { const s=document.createElement("div"); s.className="shop-sec"; const l=document.createElement("p"); l.className="label"; l.textContent=title; s.appendChild(l); panel.appendChild(s); return s; };
-      const row = (icon, name, desc, btnLabel, disabled, onClick) => {
+      const tabs = document.createElement("div"); tabs.className="tabs";
+      [["help","Help & packs"],["upgrades","Upgrades"],["looks","Looks"],["rares","Rare gems"]].forEach(([id,label]) => {
+        const b=document.createElement("button"); b.type="button"; b.className="chip"; b.textContent=label;
+        b.setAttribute("aria-pressed", String(shopTab===id));
+        b.addEventListener("click", ()=>{ shopTab=id; renderShop(); });
+        tabs.appendChild(b);
+      });
+      panel.appendChild(tabs);
+
+      const row = (icon, name, desc, btnLabel, disabled, onClick, rarity) => {
         const d=document.createElement("div"); d.className="shop-item";
         d.innerHTML = "<div class='ic'></div><div class='info'><b></b><span></span></div>";
         d.querySelector(".ic").textContent = icon;
         d.querySelector("b").textContent = name;
-        d.querySelector("span").textContent = desc;
+        const span=d.querySelector("span");
+        if (rarity && rarity!=="starter") {
+          const r=document.createElement("div"); r.className="rarity "+rarity; r.textContent=rarity; span.appendChild(r);
+          span.appendChild(document.createTextNode(" " + desc));
+        } else span.textContent=desc;
         const b=document.createElement("button"); b.type="button"; b.className="soft"; b.textContent=btnLabel; b.disabled=!!disabled;
         b.addEventListener("click", onClick); d.appendChild(b); return d;
       };
-      const cons = addSec("Help items");
-      shop.consumables.forEach((it) => {
-        cons.appendChild(row(it.icon, it.name + "  ·  " + it.price + " coins", it.desc + "  ·  you own " + (save.inv[it.id]||0), "Buy", save.coins < it.price, () => {
-          if (save.coins < it.price) return; save.coins -= it.price; save.inv[it.id] = (save.inv[it.id]||0)+1; persist(); renderShop();
-        }));
-      });
-      const perks = addSec("Permanent upgrades");
-      shop.perks.forEach((it) => {
-        const have = !!save.perks[it.id];
-        perks.appendChild(row(it.icon, it.name + (have ? "  ·  owned" : "  ·  " + it.price + " coins"), it.desc, have ? "Owned" : "Buy", have || save.coins < it.price, () => {
-          if (have || save.coins < it.price) return; save.coins -= it.price; save.perks[it.id] = true; persist(); renderShop();
-        }));
-      });
-      const themes = addSec("Themes");
-      shop.themes.forEach((it) => {
-        const have = save.owned.themes.includes(it.id);
-        const eq = save.equipped.theme === it.id;
-        const label = eq ? "Equipped" : have ? "Equip" : (it.price ? it.price + " coins" : "Equip");
-        themes.appendChild(row(it.icon, it.name, have ? "Owned" : "Unlock this look", label, eq || (!have && save.coins < it.price && it.price>0), () => {
-          if (!have) { if (save.coins < it.price) return; save.coins -= it.price; save.owned.themes.push(it.id); }
-          save.equipped.theme = it.id; persist(); renderShop();
-        }));
-      });
-      const mascots = addSec("Mascots");
-      shop.mascots.forEach((it) => {
-        const have = save.owned.mascots.includes(it.id);
-        const eq = save.equipped.mascot === it.id;
-        mascots.appendChild(row(it.emoji, it.name, have ? "Owned" : "Unlock this mascot", eq ? "Equipped" : have ? "Equip" : it.price + " coins", eq || (!have && save.coins < it.price), () => {
-          if (!have) { if (save.coins < it.price) return; save.coins -= it.price; save.owned.mascots.push(it.id); }
-          save.equipped.mascot = it.id; persist(); renderShop();
-        }));
-      });
-      const conf = addSec("Celebrations");
-      shop.confetti.forEach((it) => {
-        const have = save.owned.confetti.includes(it.id);
-        const eq = save.equipped.confetti === it.id;
-        conf.appendChild(row(it.icon, it.name, have ? "Owned" : "Unlock this confetti", eq ? "Equipped" : have ? "Equip" : it.price + " coins", eq || (!have && save.coins < it.price), () => {
-          if (!have) { if (save.coins < it.price) return; save.coins -= it.price; save.owned.confetti.push(it.id); }
-          save.equipped.confetti = it.id; persist(); renderShop();
-        }));
-      });
+
+      const slotOf = (kind) => ({maps:"map", cards:"card", auras:"aura", titles:"title", sounds:"sound", mascots:"mascot", themes:"theme", confetti:"confetti"}[kind]);
+      const buyCosmetic = (kind, it) => {
+        const have = (save.owned[kind]||[]).includes(it.id);
+        const slot = slotOf(kind);
+        const eq = save.equipped[slot] === it.id;
+        const label = eq ? "Equipped" : have ? "Equip" : priceLabel(it.price, it.gems);
+        const disabled = eq || (!have && !canPay(it.price, it.gems));
+        return row(it.icon||it.emoji, it.name, have ? "Owned" : "Unlock this", label, disabled, () => {
+          if (!have) { if (!canPay(it.price, it.gems)) return; pay(it.price, it.gems); save.owned[kind].push(it.id); }
+          save.equipped[slot] = it.id; persist(); renderShop();
+        }, it.rarity);
+      };
+
+      if (shopTab==="help") {
+        const s=document.createElement("div"); s.className="shop-sec"; const l=document.createElement("p"); l.className="label"; l.textContent="Help items"; s.appendChild(l);
+        shop.consumables.forEach((it) => {
+          s.appendChild(row(it.icon, it.name, it.desc + "  ·  you own " + (save.inv[it.id]||0), priceLabel(it.price,it.gems), !canPay(it.price,it.gems), () => {
+            if (!canPay(it.price,it.gems)) return; pay(it.price,it.gems); save.inv[it.id]=(save.inv[it.id]||0)+1; persist(); renderShop();
+          }));
+        });
+        const l2=document.createElement("p"); l2.className="label"; l2.textContent="Bundles"; s.appendChild(l2);
+        shop.packs.forEach((it) => {
+          s.appendChild(row(it.icon, it.name, it.desc, priceLabel(it.price,it.gems), !canPay(it.price,it.gems), () => {
+            if (!canPay(it.price,it.gems)) return; pay(it.price,it.gems);
+            Object.entries(it.gives||{}).forEach(([k,n]) => { save.inv[k]=(save.inv[k]||0)+n; });
+            persist(); renderShop();
+          }));
+        });
+        panel.appendChild(s);
+      } else if (shopTab==="upgrades") {
+        const s=document.createElement("div"); s.className="shop-sec"; const l=document.createElement("p"); l.className="label"; l.textContent="Permanent upgrades"; s.appendChild(l);
+        shop.upgrades.forEach((it) => {
+          const have = save.upgrades[it.id]||0;
+          const max = it.ranks.length;
+          const next = it.ranks[have];
+          const desc = it.desc + "  ·  rank " + have + "/" + max;
+          const label = have>=max ? "Maxed" : priceLabel(next.price, next.gems);
+          s.appendChild(row(it.icon, it.name, desc, label, have>=max || !canPay(next.price, next.gems), () => {
+            if (have>=max || !canPay(next.price,next.gems)) return;
+            pay(next.price,next.gems); save.upgrades[it.id]=have+1; persist(); renderShop();
+          }));
+        });
+        panel.appendChild(s);
+      } else {
+        const raresOnly = shopTab==="rares";
+        const keep = (it) => raresOnly ? (it.rarity==="rare"||it.rarity==="legendary") : true;
+        const secs = [
+          ["themes","Themes"],["mascots","Mascots"],["auras","Auras"],["confetti","Celebrations"],
+          ["cards","Card styles"],["maps","Map styles"],["titles","Titles"],["sounds","Sound packs"],
+        ];
+        secs.forEach(([kind,title]) => {
+          const items = (shop[kind]||[]).filter(keep);
+          if (!items.length) return;
+          const s=document.createElement("div"); s.className="shop-sec"; const l=document.createElement("p"); l.className="label"; l.textContent=title; s.appendChild(l);
+          items.forEach((it)=>s.appendChild(buyCosmetic(kind,it)));
+          panel.appendChild(s);
+        });
+      }
     }
 
     /* practice chips */
@@ -528,11 +629,11 @@
       return dp[m][n];
     }
     function typoAllow(ans) {
-      const lucky = !!(save.perks && save.perks.lucky);
+      const lucky = save.upgrades.lucky || 0;
       const strict = !!(state.level && state.level.strict);
-      if (strict) return lucky ? 1 : 0;
-      let allow = ans.length>=10 ? 2 : ans.length>=6 ? 1 : 0;
-      if (lucky) allow += 1;
+      let allow = strict ? 0 : (ans.length>=10 ? 2 : ans.length>=6 ? 1 : 0);
+      allow += lucky;
+      if (state.flexTypo) allow += state.flexTypo;
       return allow;
     }
     function isCorrect(item, guess) {
@@ -547,17 +648,19 @@
     function current(){ return state.queue[state.i]; }
     function drawMap(item){
       const svg=$("mapSvg"); svg.setAttribute("aria-label", item.name+" is in "+item.subregion);
+      const pal=MAP_PAL[save.equipped.map]||MAP_PAL.classic;
+      $("mapwrap").style.background=pal.wrap;
       let dots=""; (window.CAPITALS||[]).forEach((c)=>{
         const x=c.lng+180,y=90-c.lat; if(c.code===item.code) return;
         const same=c.region===item.region;
-        dots += `<circle cx="${x}" cy="${y}" r="${same?1.8:1.15}" fill="${same?"#0b3d4a":"#5a7c82"}" opacity="${same?0.55:0.28}" />`;
+        dots += `<circle cx="${x}" cy="${y}" r="${same?1.8:1.15}" fill="${same?pal.same:pal.other}" opacity="${same?0.55:0.28}" />`;
       });
       const x=item.lng+180,y=90-item.lat;
-      svg.innerHTML = `<rect width="360" height="180" fill="#cfe8ea"/>
-        <g stroke="#9cc4c8" stroke-width="0.3" fill="none" opacity=".7">${[30,60,90,120,150].map((yy)=>`<line x1="0" y1="${yy}" x2="360" y2="${yy}"/>`).join("")}${[60,120,180,240,300].map((xx)=>`<line x1="${xx}" y1="0" x2="${xx}" y2="180"/>`).join("")}</g>
+      svg.innerHTML = `<rect width="360" height="180" fill="${pal.bg}"/>
+        <g stroke="${pal.grid}" stroke-width="0.3" fill="none" opacity=".7">${[30,60,90,120,150].map((yy)=>`<line x1="0" y1="${yy}" x2="360" y2="${yy}"/>`).join("")}${[60,120,180,240,300].map((xx)=>`<line x1="${xx}" y1="0" x2="${xx}" y2="180"/>`).join("")}</g>
         ${dots}
-        <circle cx="${x}" cy="${y}" r="8" fill="none" stroke="#ffc857" stroke-width="2"><animate attributeName="r" values="6;12;6" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/></circle>
-        <circle cx="${x}" cy="${y}" r="4.2" fill="#e35d2a" stroke="#fff" stroke-width="1.2"/>`;
+        <circle cx="${x}" cy="${y}" r="8" fill="none" stroke="${pal.ring}" stroke-width="2"><animate attributeName="r" values="6;12;6" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/></circle>
+        <circle cx="${x}" cy="${y}" r="4.2" fill="${pal.pin}" stroke="#fff" stroke-width="1.2"/>`;
       $("mapcap").textContent=item.subregion;
     }
     function fillTeach(item){
@@ -572,7 +675,7 @@
     function startTimer(){
       stopTimer();
       if(!state.level || !state.level.timer || state.phase!=="recall") return;
-      const bonus = save.perks.slow ? 5 : 0;
+      const bonus = (save.upgrades.slow || 0) * 5;
       state.timeMax = state.level.timer + bonus;
       state.timeLeft = state.timeMax;
       $("timerbar").classList.add("on"); $("timerbar").classList.remove("warn");
@@ -593,7 +696,7 @@
       $("quizWrap").classList.toggle("on", recall || phase==="practice");
       $("studyNextWrap").classList.toggle("on", study);
       $("nextWrap").classList.toggle("on", phase==="recap");
-      $("ask").textContent = phase==="practice" ? "Type the capital correctly to lock in the spelling." : (save.perks.whisper && current() ? "What’s the capital? It starts with “"+current().capital[0].toUpperCase()+"”." : "What’s the capital?");
+      $("ask").textContent = phase==="practice" ? "Type the capital correctly to lock in the spelling." : ((save.upgrades.whisper) && current() ? "What’s the capital? It starts with “"+current().capital[0].toUpperCase()+"”." : "What’s the capital?");
       $("guess").placeholder = phase==="practice" && current() ? "Type "+current().capital+"…" : "Type the capital…";
       const showHint = recall && (!state.level || state.level.hints);
       $("hintBtn").style.display = showHint ? "" : "none";
@@ -604,29 +707,30 @@
       if (recall || phase==="practice"){ $("guess").disabled=false; $("goBtn").disabled=false; $("guess").value=""; $("guess").focus(); }
       if (recall) startTimer(); else stopTimer();
     }
+    function itemCount(key){ return (save.inv[key]||0) + (key==="peek" ? (state.freePeeks||0) : 0); }
     function syncItems(){
       const rec = state.phase==="recall";
-      const set = (id, key, extra) => {
-        const n=save.inv[key]||0; const b=$(id);
-        b.textContent = b.textContent.replace(/\s*\d*$/,"") + (n?(" "+n):"");
-        b.style.display = (state.campaign && rec && n>0 && extra) ? "" : "none";
+      const show = (id, key, needTimer) => {
+        const n=itemCount(key);
+        const on = state.campaign && rec && n>0 && (!needTimer || (state.level && state.level.timer));
+        const b=$(id);
+        const icon=b.dataset.icon || b.textContent.trim().split(/\s+/)[0];
+        b.dataset.icon = icon;
+        b.textContent = icon + (n?(" "+n):"");
+        b.style.display = on ? "" : "none";
       };
-      $("useHint").textContent="💡 "+(save.inv.hint||"");
-      $("usePeek").textContent="👀 "+(save.inv.peek||"");
-      $("useChance").textContent="🍀 "+(save.inv.chance||"");
-      $("useTime").textContent="⏱️ "+(save.inv.time||"");
-      $("useHint").style.display = state.campaign && rec && (save.inv.hint||0)>0 ? "" : "none";
-      $("usePeek").style.display = state.campaign && rec && (save.inv.peek||0)>0 ? "" : "none";
-      $("useChance").style.display = state.campaign && rec && (save.inv.chance||0)>0 ? "" : "none";
-      $("useTime").style.display = state.campaign && rec && (save.inv.time||0)>0 && state.level && state.level.timer ? "" : "none";
+      show("useHint","hint"); show("usePeek","peek"); show("useChance","chance");
+      show("useTime","time",true); show("useFreeze","freeze",true); show("useFlex","flex");
+      show("useSpark","spark"); show("useMagnet","magnet");
     }
     function deal(){
-      const item=current(); state.tries=0; state.hints=0;
+      const item=current(); state.tries=0; state.hints=0; state.flexTypo=0;
       $("score").textContent=state.score; $("streak").textContent=state.streak;
       $("qnum").textContent=(state.i+1)+"/"+state.queue.length;
       $("bar").style.width=(state.i/state.queue.length)*100+"%";
       $("feedback").textContent=""; $("feedback").className="feedback";
       $("card").classList.remove("shake","glow","deal"); void $("card").offsetWidth; $("card").classList.add("deal");
+      $("card").setAttribute("data-card", save.equipped.card||"plain");
       fillTeach(item);
       $("nextBtn").textContent = state.i===state.queue.length-1 ? (state.campaign?"See results":"See results") : "Next";
       const learn = state.campaign ? (state.level.kind==="learn") : (practice.mode==="learn");
@@ -639,6 +743,7 @@
       state.campaign=true; state.world=w; state.level=lv; state.levelIdx=idx;
       state.queue=order; state.i=0; state.score=0; state.streak=0;
       state.missed=[]; state.requeued=new Set(); state.firstTryOk=0; state.usedHelp=false; state.coinsEarned=0;
+      state.flexTypo=0; state.coinMult=1; state.freePeeks=save.upgrades.freepeek||0;
       showScreen("game"); deal();
     }
     function startPractice(list){
@@ -692,7 +797,7 @@
         finishRecap(true); return;
       }
       state.tries+=1; state.streak=0; $("streak").textContent="0"; sadly();
-      const maxTries=state.level?state.level.tries:2;
+      const maxTries=(state.level?state.level.tries:2)+(save.upgrades.safety||0);
       if(state.tries<maxTries){ $("feedback").className="feedback bad"; $("feedback").textContent="Not quite — have another go!"; $("guess").select(); return; }
       failQuestion(item,guess,null);
     }
@@ -723,21 +828,53 @@
       $("feedback").className="feedback hint"; $("feedback").textContent="It’s "+item.capital+". Type it once to remember the spelling.";
       $("teachBlock").classList.remove("hide"); $("where").classList.remove("hide"); setPhase("practice"); tone("hint");
     }
+    function spendItem(key){
+      if (key==="peek" && state.freePeeks>0){ state.freePeeks--; return true; }
+      if (!(save.inv[key]>0)) return false;
+      save.inv[key]--; persist(); return true;
+    }
     function useItem(key){
-      if(!state.campaign || state.phase!=="recall" || !(save.inv[key]>0)) return;
-      if(key==="hint"){ save.inv.hint--; persist(); state.usedHelp=true; onHint(); syncItems(); return; }
+      if(!state.campaign || state.phase!=="recall") return;
+      if(key==="magnet"){
+        if(!spendItem("magnet")) return;
+        state.usedHelp=true; state.coinMult=2;
+        $("feedback").className="feedback hint"; $("feedback").textContent="Coins are doubled for the rest of this level.";
+        syncItems(); return;
+      }
+      if(key==="hint"){ if(!spendItem("hint")) return; state.usedHelp=true; onHint(); syncItems(); return; }
       if(key==="peek"){
-        save.inv.peek--; persist(); state.usedHelp=true;
+        if(!spendItem("peek")) return;
+        state.usedHelp=true;
         $("teachBlock").classList.remove("hide"); $("where").classList.remove("hide");
         $("feedback").className="feedback hint"; $("feedback").textContent="Quick peek — then it’s gone.";
         setTimeout(()=>{ if(state.phase==="recall"){ $("teachBlock").classList.add("hide"); $("where").classList.add("hide"); } }, 3000);
         syncItems(); return;
       }
-      if(key==="chance"){ save.inv.chance--; persist(); state.usedHelp=true; state.tries=Math.max(0,state.tries-1); $("feedback").className="feedback hint"; $("feedback").textContent="Extra try ready."; syncItems(); return; }
+      if(key==="chance"){ if(!spendItem("chance")) return; state.usedHelp=true; state.tries=Math.max(0,state.tries-1); $("feedback").className="feedback hint"; $("feedback").textContent="Extra try ready."; syncItems(); return; }
       if(key==="time"){
         if(!state.level||!state.level.timer) return;
-        save.inv.time--; persist(); state.usedHelp=true; state.timeLeft+=15; state.timeMax+=15; $("timerbar").classList.remove("warn");
-        $("feedback").className="feedback hint"; $("feedback").textContent="+15 seconds."; syncItems();
+        if(!spendItem("time")) return;
+        state.usedHelp=true; state.timeLeft+=15; state.timeMax+=15; $("timerbar").classList.remove("warn");
+        $("feedback").className="feedback hint"; $("feedback").textContent="+15 seconds."; syncItems(); return;
+      }
+      if(key==="freeze"){
+        if(!state.level||!state.level.timer) return;
+        if(!spendItem("freeze")) return;
+        state.usedHelp=true; state.timeLeft+=10; state.timeMax+=10; $("timerbar").classList.remove("warn");
+        $("feedback").className="feedback hint"; $("feedback").textContent="Clock eased — +10 seconds."; syncItems(); return;
+      }
+      if(key==="flex"){
+        if(!spendItem("flex")) return;
+        state.usedHelp=true; state.flexTypo=2;
+        $("feedback").className="feedback hint"; $("feedback").textContent="This answer can be a little sloppy.";
+        syncItems(); return;
+      }
+      if(key==="spark"){
+        if(!spendItem("spark")) return;
+        state.usedHelp=true;
+        const cap=current().capital;
+        $("feedback").className="feedback hint"; $("feedback").textContent="It starts with “"+cap.slice(0, Math.min(3, cap.length))+"”.";
+        tone("hint"); syncItems();
       }
     }
     function next(){ if(state.i>=state.queue.length-1) return state.campaign?finishCampaign():finishPractice(); state.i+=1; deal(); }
@@ -761,26 +898,37 @@
       let coins=s*2 + (stars>0?10:0) + (stars===3?20:0) + (state.level.boss&&stars>0?25:0);
       if(firstClear) coins+=15;
       if(improved) coins+= (stars-prev)*10;
+      const magnet = 1 + 0.25*(save.upgrades.magnetup||0);
+      coins = Math.round(coins * magnet * (state.coinMult||1));
       save.coins += coins; state.coinsEarned=coins;
-      save.xp += s*8 + (stars>0?15:0) + (stars===3?25:0);
+      let gems=0;
+      if(stars===3) gems += 1 + (save.upgrades.starmine||0);
+      if(state.level.boss && firstClear) gems += 2;
+      if(state.level.boss && stars===3) gems += 2;
+      let xp = s*8 + (stars>0?15:0) + (stars===3?25:0);
+      xp = Math.round(xp * (1 + 0.2*(save.upgrades.scholar||0)));
+      save.xp += xp;
       let chest=null;
       if(state.level.boss && stars>0 && !save.chests.includes("w"+state.world.id)){
         const c=state.world.chest||{}; save.chests.push("w"+state.world.id);
         if(c.coins){ save.coins+=c.coins; coins+=c.coins; }
+        if(c.gems){ save.gems=(save.gems||0)+c.gems; gems+=c.gems; }
         if(c.theme && !save.owned.themes.includes(c.theme)) save.owned.themes.push(c.theme);
         if(c.mascot && !save.owned.mascots.includes(c.mascot)) save.owned.mascots.push(c.mascot);
         if(c.badge && !save.badges.includes(c.badge)) save.badges.push(c.badge);
         chest=c;
       }
+      save.gems = (save.gems||0) + gems;
       persist();
       showScreen("result");
       $("resFlag").textContent = stars ? "🏆" : "📘";
       $("resTitle").textContent = stars===0 ? "Not quite yet" : stars===3 ? "Perfect!" : "Level clear!";
       $("resStars").textContent = "★".repeat(stars)+"☆".repeat(3-stars);
       $("resScore").textContent = s+"/"+n;
-      $("resMsg").textContent = (stars===0 ? ("You need "+Math.round((state.level.passPct??state.world.passPct)*100)+"% to pass. Try again — the study cards will help.") : ("+" + coins + " coins. First-try: "+state.firstTryOk+"/"+n+".")) + (improved && prev ? " New best: "+stars+" stars." : "");
+      const loot = stars===0 ? ("You need "+Math.round((state.level.passPct??state.world.passPct)*100)+"% to pass. Try again — the study cards will help.") : ("+" + coins + " coins" + (gems?(" · +"+gems+" gems"):"") + ". First-try: "+state.firstTryOk+"/"+n+".");
+      $("resMsg").textContent = loot + (improved && prev ? " New best: "+stars+" stars." : "");
       const ch=$("resChest");
-      if(chest){ ch.classList.remove("hide"); ch.textContent="🎁 World chest: +"+(chest.coins||0)+" coins"+(chest.theme?" · unlocked the "+chest.theme+" theme":"")+(chest.mascot?" · unlocked a new mascot":"")+(chest.badge?" · badge: "+chest.badge:""); burst(); }
+      if(chest){ ch.classList.remove("hide"); ch.textContent="🎁 World chest: +"+(chest.coins||0)+" coins"+(chest.gems?(" · +"+chest.gems+" gems"):"")+(chest.theme?" · unlocked the "+chest.theme+" theme":"")+(chest.mascot?" · unlocked a new mascot":"")+(chest.badge?" · badge: "+chest.badge:""); burst(); }
       else ch.classList.add("hide");
       const nxt=nextAfter(state.world,state.levelIdx);
       $("resNext").style.display = (stars>0 && nxt) ? "" : "none";
@@ -834,19 +982,39 @@
       if(state.muted) return;
       try{
         audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+        const pack=save.equipped.sound||"classic";
         const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination);
         const now=audioCtx.currentTime;
-        if(kind==="ok"){ o.type="triangle"; o.frequency.setValueAtTime(523,now); o.frequency.setValueAtTime(784,now+0.09); g.gain.setValueAtTime(0.06,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.28); o.start(now); o.stop(now+0.3); }
-        else if(kind==="bad"){ o.type="sine"; o.frequency.setValueAtTime(220,now); o.frequency.linearRampToValueAtTime(160,now+0.16); g.gain.setValueAtTime(0.04,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.2); o.start(now); o.stop(now+0.22); }
-        else { o.type="sine"; o.frequency.value=440; g.gain.setValueAtTime(0.03,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.12); o.start(now); o.stop(now+0.12); }
+        const wave = pack==="chiptune"?"square": pack==="orchestra"?"sawtooth": pack==="space"?"sine":"triangle";
+        o.type = kind==="bad" && pack==="classic" ? "sine" : wave;
+        if(kind==="ok"){
+          const a=pack==="orchestra"?392:pack==="space"?660:523;
+          const b=pack==="orchestra"?784:pack==="space"?990:784;
+          o.frequency.setValueAtTime(a,now); o.frequency.setValueAtTime(b,now+0.09);
+          g.gain.setValueAtTime(0.06,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.32); o.start(now); o.stop(now+0.34);
+        } else if(kind==="bad"){
+          o.frequency.setValueAtTime(pack==="space"?180:220,now); o.frequency.linearRampToValueAtTime(140,now+0.16);
+          g.gain.setValueAtTime(0.04,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.2); o.start(now); o.stop(now+0.22);
+        } else {
+          o.frequency.value=pack==="chiptune"?660:440; g.gain.setValueAtTime(0.03,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.12); o.start(now); o.stop(now+0.12);
+        }
       }catch(_){}
     }
     const cvs=$("confetti"), ctx=cvs.getContext("2d"); let bits=[];
     function resize(){ cvs.width=innerWidth; cvs.height=innerHeight; } addEventListener("resize",resize); resize();
     function burst(){
       const style=save.equipped.confetti;
-      const colors = style==="gold" ? ["#ffc857","#ffe08a","#c9a227","#fff7e8","#e6c35c"] : style==="veggie" ? ["#8bd46a","#e35d2a","#ffc857","#2ec4b6","#c9783a","#fff7e8"] : ["#ffc857","#2ec4b6","#ff6b6b","#fff7e8","#5ad4ff","#9b5de5"];
-      for(let i=0;i<90;i++) bits.push({x:innerWidth/2+(Math.random()-0.5)*80,y:innerHeight*0.28,vx:(Math.random()-0.5)*9,vy:Math.random()*-8-2,g:0.18+Math.random()*0.08,w:6+Math.random()*6,h:8+Math.random()*8,r:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:colors[i%colors.length],life:80+Math.random()*30});
+      const pal = {
+        gold: ["#ffc857","#ffe08a","#c9a227","#fff7e8","#e6c35c"],
+        veggie: ["#8bd46a","#e35d2a","#ffc857","#2ec4b6","#c9783a","#fff7e8"],
+        stars: ["#ffc857","#fff7e8","#ffe08a","#ffffff","#9b5de5"],
+        fireworks: ["#ff6b6b","#ffc857","#5ad4ff","#d65cff","#fff7e8","#5cffb0"],
+        diamonds: ["#b8f0ff","#ffffff","#d0e8ff","#8fe8ff","#e8f6ff"],
+        standard: ["#ffc857","#2ec4b6","#ff6b6b","#fff7e8","#5ad4ff","#9b5de5"],
+      };
+      const colors=pal[style]||pal.standard;
+      const n = style==="fireworks"?130:90;
+      for(let i=0;i<n;i++) bits.push({x:innerWidth/2+(Math.random()-0.5)*80,y:innerHeight*0.28,vx:(Math.random()-0.5)*9,vy:Math.random()*-8-2,g:0.18+Math.random()*0.08,w:6+Math.random()*6,h:8+Math.random()*8,r:Math.random()*6,vr:(Math.random()-0.5)*0.3,c:colors[i%colors.length],life:80+Math.random()*30});
     }
     (function tick(){ ctx.clearRect(0,0,cvs.width,cvs.height); bits=bits.filter((b)=>b.life>0); bits.forEach((b)=>{ b.vy+=b.g; b.x+=b.vx; b.y+=b.vy; b.r+=b.vr; b.life-=1; ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.r); ctx.globalAlpha=Math.max(0,b.life/60); ctx.fillStyle=b.c; ctx.fillRect(-b.w/2,-b.h/2,b.w,b.h); ctx.restore(); }); requestAnimationFrame(tick); })();
 
@@ -860,6 +1028,10 @@
     $("usePeek").addEventListener("click", ()=>useItem("peek"));
     $("useChance").addEventListener("click", ()=>useItem("chance"));
     $("useTime").addEventListener("click", ()=>useItem("time"));
+    $("useFreeze").addEventListener("click", ()=>useItem("freeze"));
+    $("useFlex").addEventListener("click", ()=>useItem("flex"));
+    $("useSpark").addEventListener("click", ()=>useItem("spark"));
+    $("useMagnet").addEventListener("click", ()=>useItem("magnet"));
     $("continueBtn").addEventListener("click", ()=>{ const n=firstOpenUnstarred(); startCampaign(n.w,n.i); });
     $("levelsBtn").addEventListener("click", ()=>{ renderWorlds(); showScreen("worlds"); });
     $("worldsBack").addEventListener("click", ()=>{ renderHome(); showScreen("home"); });
