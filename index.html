@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b3d4a" />
+  <title>Capital Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #0b3d4a; --teal-2: #12586b; --cream: #fff7e8; --card: #fffdf8;
+      --gold: #ffc857; --coral: #ff6b6b; --mint: #2ec4b6; --ink: #14333d;
+      --muted: #4d6a73; --ok: #1b9c74; --shadow: 0 18px 50px rgba(8, 30, 38, .28);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; min-height: 100dvh;
+      font-family: Nunito, "Segoe UI", sans-serif; color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1c6b7a 0%, transparent 50%),
+        radial-gradient(900px 500px at 110% 10%, #c9783a 0%, transparent 45%),
+        linear-gradient(165deg, #082e38 0%, var(--teal) 45%, #0e4d5c 100%);
+      overflow-x: hidden;
+    }
+    .blob { position: fixed; border-radius: 50%; filter: blur(8px); opacity: .22; pointer-events: none; z-index: 0; animation: float 12s ease-in-out infinite; }
+    .blob.a { width: 280px; height: 280px; background: #ffc857; top: 8%; left: -80px; }
+    .blob.b { width: 220px; height: 220px; background: #2ec4b6; bottom: 8%; right: -60px; animation-delay: -4s; }
+    .blob.c { width: 140px; height: 140px; background: #ff6b6b; top: 42%; right: 12%; animation-delay: -7s; opacity: .14; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-24px) rotate(8deg); } }
+    .wrap { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 20px 16px 48px; min-height: 100dvh; display: flex; flex-direction: column; }
+    header.top { display: flex; align-items: center; justify-content: space-between; color: var(--cream); margin-bottom: 6px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: Fredoka, Nunito, sans-serif; font-weight: 700; font-size: 1.15rem; }
+    .mascot { width: 42px; height: 42px; display: grid; place-items: center; font-size: 28px; transform-origin: 50% 80%; animation: bob 2.4s ease-in-out infinite; }
+    .mascot.yes { animation: hop .6s ease; }
+    .mascot.no { animation: wiggle .5s ease; }
+    @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-6px) rotate(6deg); } }
+    @keyframes hop { 0% { transform: scale(1); } 40% { transform: scale(1.25) translateY(-14px) rotate(-8deg); } 100% { transform: scale(1); } }
+    @keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-16deg); } 75% { transform: rotate(16deg); } }
+    .icon-btn { appearance: none; border: 0; background: rgba(255,247,232,.12); color: var(--cream); width: 42px; height: 42px; border-radius: 12px; font-size: 18px; cursor: pointer; }
+    .icon-btn:hover { background: rgba(255,247,232,.22); }
+    .screen { display: none; flex: 1; }
+    .screen.on { display: flex; flex-direction: column; }
+    h1 { font-family: Fredoka, Nunito, sans-serif; color: var(--cream); font-size: clamp(1.8rem, 5.5vw, 2.8rem); margin: 14px 0 8px; line-height: 1.1; }
+    .lede { color: #dbeee8; font-size: 1.05rem; line-height: 1.5; margin: 0 0 18px; }
+    .panel { background: var(--card); border-radius: 24px; padding: 20px; box-shadow: var(--shadow); animation: rise .45s ease; }
+    @keyframes rise { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+    .label { font-weight: 800; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .chip, button.primary, button.ghost, button.soft, button.go { font-family: inherit; font-weight: 800; cursor: pointer; }
+    .chip { appearance: none; border: 2px solid #e6ddd0; background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; font-size: .92rem; }
+    .chip[aria-pressed="true"] { border-color: var(--teal); background: var(--teal); color: #fff; }
+    button.primary { appearance: none; border: 0; background: var(--gold); color: #1a2a20; border-radius: 16px; padding: 14px 22px; font-size: 1.1rem; box-shadow: 0 8px 0 #e09a20; width: 100%; }
+    button.primary:active { transform: translateY(4px); box-shadow: 0 4px 0 #e09a20; }
+    button.primary:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+    button.soft { appearance: none; border: 2px solid #e6ddd0; background: #fff; color: var(--ink); border-radius: 14px; padding: 10px 14px; font-size: .95rem; }
+    button.go { appearance: none; border: 0; background: var(--teal); color: #fff; border-radius: 14px; padding: 0 18px; white-space: nowrap; }
+    .btnrow { display: flex; flex-direction: column; gap: 10px; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 6px 0 12px; color: var(--cream); }
+    .stat { background: rgba(255,247,232,.1); border-radius: 14px; padding: 10px 8px; text-align: center; }
+    .stat b { display: block; font-family: Fredoka, sans-serif; font-size: 1.3rem; }
+    .stat span { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; opacity: .8; }
+    .progress { height: 8px; background: rgba(255,247,232,.15); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+    .progress > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--mint), var(--gold)); border-radius: 99px; transition: width .35s ease; }
+    .card { background: var(--card); border-radius: 28px; padding: 18px 18px 16px; box-shadow: var(--shadow); transform-origin: 50% 0; }
+    .card.deal { animation: deal .45s cubic-bezier(.2, 1.1, .3, 1); }
+    .card.shake { animation: shake .45s ease; }
+    .card.glow { box-shadow: 0 0 0 6px rgba(46,196,182,.35), var(--shadow); }
+    @keyframes deal { from { opacity: 0; transform: rotate(-3deg) translateY(24px) scale(.96); } to { opacity: 1; transform: none; } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+    .mapwrap { position: relative; background: #cfe8ea; border-radius: 18px; overflow: hidden; height: 170px; margin-bottom: 12px; border: 2px solid #d9ecee; }
+    .mapwrap svg { width: 100%; height: 100%; display: block; }
+    .mapcap { position: absolute; left: 10px; bottom: 8px; background: rgba(11,61,74,.86); color: #fff; font-size: .72rem; font-weight: 800; padding: 3px 8px; border-radius: 999px; }
+    .flagline { display: flex; align-items: center; gap: 10px; justify-content: center; text-align: center; }
+    .flag { font-size: 2.6rem; line-height: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.12)); }
+    .country { font-family: Fredoka, Nunito, sans-serif; font-size: clamp(1.5rem, 4.6vw, 2.15rem); margin: 0; line-height: 1.15; }
+    .aka, .ask { color: var(--muted); margin: 4px 0 0; }
+    .aka { font-size: .9rem; text-align: center; }
+    .where { margin: 10px 0 0; line-height: 1.45; font-size: .98rem; }
+    .capbox { margin-top: 12px; background: #f3fbf8; border: 2px solid #c7ebe3; border-radius: 16px; padding: 12px 14px; }
+    .capbox .k { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ok); font-weight: 800; }
+    .capname { font-family: Fredoka, sans-serif; font-size: 1.7rem; margin: 2px 0 6px; }
+    .sayrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .say { font-weight: 800; color: var(--teal-2); }
+    button.hear { appearance: none; border: 0; background: var(--teal); color: #fff; border-radius: 999px; padding: 6px 12px; font: 800 .85rem Nunito, sans-serif; cursor: pointer; }
+    .teach { margin-top: 10px; border-radius: 16px; padding: 12px 14px; text-align: left; }
+    .teach.hook { background: #fff4d0; border: 2px solid #ffd98a; }
+    .teach.fact { background: #eef7ff; border: 2px solid #c9e0f7; }
+    .teach.watch { background: #fff0e8; border: 2px solid #ffd2c2; }
+    .teach strong { display: block; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+    .teach.hook strong { color: #8a5a00; }
+    .teach.fact strong { color: #1a4e7a; }
+    .teach.watch strong { color: #9a3f12; }
+    .row { display: flex; gap: 8px; margin-top: 12px; }
+    input[type="text"] { flex: 1; min-width: 0; font: 800 16px/1.2 Nunito, sans-serif; padding: 14px 16px; border-radius: 14px; border: 2px solid #e6ddd0; outline: none; color: var(--ink); }
+    input[type="text"]:focus { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(11,61,74,.12); }
+    .tools { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+    .feedback { min-height: 1.2em; margin-top: 12px; font-weight: 800; text-align: center; }
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: #c44747; }
+    .feedback.hint { color: var(--teal-2); }
+    .next-wrap, .quiz-wrap { display: none; margin-top: 12px; }
+    .next-wrap.on, .quiz-wrap.on { display: block; }
+    .hide { display: none !important; }
+    .end-score { font-family: Fredoka, sans-serif; font-size: 3rem; margin: 0; color: var(--teal); text-align: center; }
+    .study-tools { display: flex; gap: 8px; margin-bottom: 12px; }
+    .study-tools input { flex: 1; font: 700 16px Nunito, sans-serif; padding: 10px 12px; border-radius: 12px; border: 2px solid #e6ddd0; }
+    .slist { display: flex; flex-direction: column; gap: 8px; max-height: 62dvh; overflow: auto; }
+    .slist details { background: #fff; border: 2px solid #eee4d4; border-radius: 14px; padding: 8px 12px; }
+    .slist summary { cursor: pointer; font-weight: 800; }
+    .slist p { margin: 8px 0 4px; }
+    .progress-line { margin: 0 0 8px; color: var(--muted); font-weight: 700; text-align: center; }
+    .footer-note { color: #c9e4de; font-size: .85rem; margin-top: auto; padding-top: 20px; text-align: center; }
+    canvas#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+    @media (max-width: 520px) { .card { padding: 14px 12px; } .mapwrap { height: 150px; } .capname { font-size: 1.45rem; } }
+  </style>
+</head>
+<body>
+  <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
+  <canvas id="confetti"></canvas>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand"><span class="mascot" id="mascot" aria-hidden="true">🌍</span> Capital Quest</div>
+      <button class="icon-btn" id="muteBtn" type="button" aria-label="Mute sounds" title="Sound">🔊</button>
+    </header>
+
+    <section class="screen on" id="start">
+      <h1>Learn the capitals, then prove it.</h1>
+      <p class="lede">First you’ll study a real country card — map, pronunciation, a memory hook, and a useful fact. Then you type the capital so it sticks. Start with the Starter pack if this is new.</p>
+      <div class="panel">
+        <p class="label">How to play</p>
+        <div class="chips" id="modes"></div>
+        <p class="label">What to study</p>
+        <div class="chips" id="packs"></div>
+        <p class="label">Region</p>
+        <div class="chips" id="regions"></div>
+        <p class="label">How many questions</p>
+        <div class="chips" id="counts"></div>
+        <p class="progress-line" id="bestLine"></p>
+        <div class="btnrow">
+          <button class="primary" id="playBtn" type="button">Let’s practice</button>
+          <button class="soft" id="listBtn" type="button">Study the list first</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="list">
+      <div class="panel" style="padding-bottom:14px">
+        <p class="label" id="listTitle">Study list</p>
+        <div class="study-tools">
+          <input type="search" id="listSearch" placeholder="Search a country or capital…" />
+        </div>
+        <div class="slist" id="slist"></div>
+        <div class="btnrow" style="margin-top:12px">
+          <button class="primary" id="listPlayBtn" type="button">Practice these</button>
+          <button class="soft" id="listBackBtn" type="button">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="game">
+      <div class="stats">
+        <div class="stat"><b id="score">0</b><span>Score</span></div>
+        <div class="stat"><b id="streak">0</b><span>Streak</span></div>
+        <div class="stat"><b id="qnum">1/10</b><span>Question</span></div>
+      </div>
+      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+      <div class="card" id="card">
+        <div class="mapwrap" id="mapwrap">
+          <svg id="mapSvg" viewBox="0 0 360 180" role="img" aria-label="World map"></svg>
+          <div class="mapcap" id="mapcap"></div>
+        </div>
+        <div class="flagline">
+          <div class="flag" id="flag" aria-hidden="true"></div>
+          <h2 class="country" id="country"></h2>
+        </div>
+        <p class="aka" id="aka"></p>
+        <p class="where" id="where"></p>
+
+        <div id="teachBlock">
+          <div class="capbox">
+            <div class="k">Capital</div>
+            <div class="capname" id="capname"></div>
+            <div class="sayrow">
+              <span class="say">Say it: “<span id="say"></span>”</span>
+              <button class="hear" type="button" id="hearBtn">Hear it</button>
+            </div>
+          </div>
+          <div class="teach hook"><strong>💡 Remember it like this</strong><span id="hookText"></span></div>
+          <div class="teach fact"><strong>✨ A useful fact</strong><span id="factText"></span></div>
+          <div class="teach watch" id="watchBox"><strong>⚠️ Watch out</strong><span id="watchText"></span></div>
+        </div>
+
+        <div class="quiz-wrap" id="quizWrap">
+          <p class="ask" id="ask">What’s the capital?</p>
+          <form id="form" autocomplete="off">
+            <div class="row">
+              <input type="text" id="guess" name="guess" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" aria-label="Capital city" placeholder="Type the capital…" />
+              <button class="go" type="submit" id="goBtn">Check</button>
+            </div>
+          </form>
+          <div class="tools">
+            <button class="soft" type="button" id="hintBtn">Hint</button>
+            <button class="soft" type="button" id="skipBtn">Show me</button>
+          </div>
+        </div>
+
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+        <div class="next-wrap" id="nextWrap">
+          <button class="primary" type="button" id="nextBtn">Next</button>
+        </div>
+        <div class="next-wrap" id="studyNextWrap">
+          <button class="primary" type="button" id="quizMeBtn">Now type it</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="end">
+      <div class="panel" style="text-align:center">
+        <div class="flag" id="endFlag">🎉</div>
+        <h2 class="country" id="endTitle">Nice work!</h2>
+        <p class="end-score" id="endScore">0/10</p>
+        <p id="endMsg" style="color:var(--muted);font-weight:700;"></p>
+        <div class="btnrow" style="margin-top:18px">
+          <button class="primary" type="button" id="againBtn">Practice again</button>
+          <button class="soft" type="button" id="reviewBtn">Practice the tricky ones</button>
+          <button class="soft" type="button" id="homeBtn">Change settings</button>
+        </div>
+        <div id="missed" style="text-align:left;margin-top:8px"></div>
+      </div>
+    </section>
+
+    <p class="footer-note">Close spellings still count. Famous cities that aren’t the capital get a gentle hint. After a miss, you’ll type the right name so the spelling sticks.</p>
+  </div>
+  <script src="data.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const MODES = [{id:"learn", label:"Learn, then type (best)"}, {id:"quiz", label:"Quiz only"}];
+    const PACKS = [
+      {id:"starter", label:"Starter pack (30)"},
+      {id:"school", label:"School pack (81)"},
+      {id:"challenge", label:"Challenge pack"},
+      {id:"all", label:"Whole world"},
+      {id:"review", label:"My review list"},
+    ];
+    const REGIONS = [
+      {id:"all", label:"All regions"},
+      {id:"Africa", label:"Africa"},
+      {id:"Americas", label:"Americas"},
+      {id:"Asia", label:"Asia"},
+      {id:"Europe", label:"Europe"},
+      {id:"Oceania", label:"Oceania"},
+    ];
+    const COUNTS = [10, 20, "All"];
+    const STORE = "cq-mastery-v2";
+
+    const state = {
+      mode: "learn",
+      pack: "starter",
+      region: "all",
+      count: 10,
+      queue: [],
+      i: 0,
+      score: 0,
+      streak: 0,
+      tries: 0,
+      hints: 0,
+      phase: "study", // study | recall | practice | recap
+      missed: [],
+      requeued: new Set(),
+      muted: localStorage.getItem("cq-mute") === "1",
+    };
+
+    function mastery() {
+      try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { return {}; }
+    }
+    function saveMastery(m) { localStorage.setItem(STORE, JSON.stringify(m)); }
+    function isMastered(code) { return (mastery()[code]?.firstTry || 0) >= 2; }
+    function markResult(code, firstTryOk, ok) {
+      const m = mastery();
+      const rec = m[code] || { seen: 0, firstTry: 0, correct: 0 };
+      rec.seen += 1;
+      if (ok) rec.correct += 1;
+      if (firstTryOk) rec.firstTry += 1;
+      m[code] = rec;
+      saveMastery(m);
+    }
+
+    function norm(s) {
+      return String(s || "").toLowerCase().normalize("NFD").replace(/\p{M}/gu, "")
+        .replace(/[''`´’]/g, "").replace(/&/g, "and")
+        .replace(/\bst\.?\s/g, "st ").replace(/\bsaint\s/g, "st ")
+        .replace(/\b(city|of|the|de|la|le|el|al|da|do)\b/g, " ")
+        .replace(/[^a-z0-9]+/g, "").trim();
+    }
+    function dist(a, b) {
+      if (a === b) return 0;
+      const m = a.length, n = b.length;
+      if (!m) return n; if (!n) return m;
+      const dp = Array.from({ length: m + 1 }, (_, i) => { const row = new Array(n + 1); row[0] = i; return row; });
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++)
+        dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1] + (a[i-1]===b[j-1]?0:1));
+      return dp[m][n];
+    }
+    function isCorrect(item, guess) {
+      const g = norm(guess);
+      if (!g) return false;
+      return item.accept.some((ans) => {
+        const a = norm(ans); if (!a) return false;
+        if (g === a) return true;
+        const allow = a.length >= 10 ? 2 : a.length >= 6 ? 1 : 0;
+        return allow && dist(g, a) <= allow;
+      });
+    }
+    function almostMsg(item, guess) {
+      const g = norm(guess);
+      for (const [key, msg] of Object.entries(item.almost || {})) if (norm(key) === g) return msg;
+      return "";
+    }
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+    function inPack(c) {
+      if (state.pack === "all") return true;
+      if (state.pack === "starter") return c.pack === "starter";
+      if (state.pack === "school") return c.pack === "starter" || c.pack === "school";
+      if (state.pack === "challenge") return c.pack === "challenge";
+      if (state.pack === "review") {
+        const rec = mastery()[c.code];
+        return rec && rec.seen > 0 && !isMastered(c.code);
+      }
+      return true;
+    }
+    function pool() {
+      return (window.CAPITALS || []).filter((c) => inPack(c) && (state.region === "all" || c.region === state.region));
+    }
+    function showScreen(id) { ["start","list","game","end"].forEach((s) => $(s).classList.toggle("on", s === id)); }
+
+    function renderChips() {
+      const mk = (el, items, key) => {
+        el.innerHTML = "";
+        items.forEach((it) => {
+          const id = it.id ?? it;
+          const label = it.label ?? (it === "All" ? "Whole pack" : it + " questions");
+          const b = document.createElement("button");
+          b.type = "button"; b.className = "chip"; b.textContent = label;
+          b.setAttribute("aria-pressed", String(state[key] === id || (id === "All" && state[key] === "All")));
+          b.addEventListener("click", () => { state[key] = id; renderChips(); showBest(); });
+          el.appendChild(b);
+        });
+      };
+      mk($("modes"), MODES, "mode");
+      mk($("packs"), PACKS, "pack");
+      mk($("regions"), REGIONS, "region");
+      mk($("counts"), COUNTS, "count");
+    }
+
+    function showBest() {
+      const list = pool();
+      const locked = list.filter((c) => isMastered(c.code)).length;
+      const n = list.length;
+      const avail = state.count === "All" ? n : Math.min(Number(state.count), n);
+      if (!n) {
+        $("bestLine").textContent = state.pack === "review" ? "Nothing in the review list yet — practice a pack first." : "No countries in this combination.";
+        $("playBtn").disabled = true; $("listBtn").disabled = true;
+        return;
+      }
+      $("playBtn").disabled = false; $("listBtn").disabled = false;
+      $("bestLine").textContent = n + " countries in this set · " + locked + " locked in (first-try right, twice) · this round: " + avail;
+    }
+
+    function current() { return state.queue[state.i]; }
+
+    function drawMap(item) {
+      const svg = $("mapSvg");
+      svg.setAttribute("aria-label", item.name + " is in " + item.subregion);
+      const all = window.CAPITALS;
+      let dots = "";
+      all.forEach((c) => {
+        const x = c.lng + 180, y = 90 - c.lat;
+        const same = c.region === item.region;
+        const r = c.code === item.code ? 0 : (same ? 1.8 : 1.15);
+        if (!r) return;
+        dots += `<circle cx="${x}" cy="${y}" r="${r}" fill="${same ? "#0b3d4a" : "#5a7c82"}" opacity="${same ? 0.55 : 0.28}" />`;
+      });
+      const x = item.lng + 180, y = 90 - item.lat;
+      svg.innerHTML = `
+        <rect width="360" height="180" fill="#cfe8ea"/>
+        <g stroke="#9cc4c8" stroke-width="0.3" fill="none" opacity=".7">
+          ${[30,60,90,120,150].map((yy)=>`<line x1="0" y1="${yy}" x2="360" y2="${yy}"/>`).join("")}
+          ${[60,120,180,240,300].map((xx)=>`<line x1="${xx}" y1="0" x2="${xx}" y2="180"/>`).join("")}
+        </g>
+        ${dots}
+        <circle cx="${x}" cy="${y}" r="8" fill="none" stroke="#ffc857" stroke-width="2">
+          <animate attributeName="r" values="6;12;6" dur="1.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="${x}" cy="${y}" r="4.2" fill="#e35d2a" stroke="#fff" stroke-width="1.2"/>
+      `;
+      $("mapcap").textContent = item.subregion;
+    }
+
+    function fillTeach(item) {
+      $("flag").textContent = item.flag || "🌍";
+      $("country").textContent = item.name;
+      $("aka").textContent = item.aka && item.aka.length ? "Also called " + item.aka.join(", ") : "";
+      $("where").textContent = item.where;
+      $("capname").textContent = item.capital;
+      $("say").textContent = item.say;
+      $("hookText").textContent = item.hook;
+      $("factText").textContent = item.fact;
+      $("watchText").textContent = item.watch || "";
+      $("watchBox").style.display = item.watch ? "block" : "none";
+      drawMap(item);
+    }
+
+    function setPhase(phase) {
+      state.phase = phase;
+      const study = phase === "study";
+      const recap = phase === "recap" || phase === "practice";
+      const recall = phase === "recall";
+      $("teachBlock").classList.toggle("hide", recall);
+      $("where").classList.toggle("hide", recall);
+      $("quizWrap").classList.toggle("on", recall || phase === "practice");
+      $("studyNextWrap").classList.toggle("on", study);
+      $("nextWrap").classList.toggle("on", phase === "recap");
+      $("ask").textContent = phase === "practice" ? "Type the capital correctly to lock in the spelling." : "What’s the capital?";
+      $("guess").placeholder = phase === "practice" ? "Type " + current().capital + "…" : "Type the capital…";
+      $("hintBtn").style.display = recall ? "" : "none";
+      $("skipBtn").style.display = recall ? "" : "none";
+      $("goBtn").textContent = phase === "practice" ? "Lock it in" : "Check";
+      if (recall || phase === "practice") {
+        $("guess").disabled = false; $("goBtn").disabled = false;
+        $("guess").value = ""; $("guess").focus();
+      }
+    }
+
+    function deal() {
+      const item = current();
+      state.tries = 0; state.hints = 0;
+      $("score").textContent = state.score;
+      $("streak").textContent = state.streak;
+      $("qnum").textContent = (state.i + 1) + "/" + state.queue.length;
+      $("bar").style.width = (state.i / state.queue.length) * 100 + "%";
+      $("feedback").textContent = ""; $("feedback").className = "feedback";
+      $("card").classList.remove("shake","glow","deal");
+      void $("card").offsetWidth; $("card").classList.add("deal");
+      fillTeach(item);
+      $("nextBtn").textContent = state.i === state.queue.length - 1 ? "See results" : "Next";
+      if (state.mode === "learn") setPhase("study");
+      else { setPhase("recall"); }
+    }
+
+    function startRound(list) {
+      const source = list || shuffle(pool());
+      const n = state.count === "All" ? source.length : Math.min(Number(state.count), source.length);
+      if (!n) return;
+      state.queue = source.slice(0, n);
+      state.i = 0; state.score = 0; state.streak = 0;
+      state.missed = []; state.requeued = new Set();
+      showScreen("game");
+      deal();
+    }
+
+    function celebrate() {
+      const m = $("mascot"); m.classList.remove("yes","no"); void m.offsetWidth; m.classList.add("yes");
+      burst(); tone("ok");
+    }
+    function sadly() {
+      const m = $("mascot"); m.classList.remove("yes","no"); void m.offsetWidth; m.classList.add("no");
+      $("card").classList.remove("shake"); void $("card").offsetWidth; $("card").classList.add("shake");
+      tone("bad");
+    }
+
+    function requeue(item) {
+      if (state.requeued.has(item.code)) return;
+      state.requeued.add(item.code);
+      const at = Math.min(state.i + 3, state.queue.length);
+      state.queue.splice(at, 0, item);
+      $("qnum").textContent = (state.i + 1) + "/" + state.queue.length;
+    }
+
+    function finishRecap(ok) {
+      $("card").classList.toggle("glow", ok);
+      $("bar").style.width = ((state.i + 1) / state.queue.length) * 100 + "%";
+      setPhase("recap");
+      $("nextBtn").focus();
+    }
+
+    function onCheck(ev) {
+      ev.preventDefault();
+      if (state.phase === "recap") { next(); return; }
+      if (state.phase === "study") { setPhase("recall"); return; }
+      const item = current();
+      const guess = $("guess").value;
+      if (!guess.trim()) return;
+
+      if (state.phase === "practice") {
+        if (isCorrect(item, guess)) {
+          $("feedback").className = "feedback ok";
+          $("feedback").textContent = "Got the spelling. " + item.capital + " it is.";
+          tone("ok");
+          finishRecap(false);
+        } else {
+          sadly();
+          $("feedback").className = "feedback bad";
+          $("feedback").textContent = "Look at the name above and try that spelling.";
+          $("guess").select();
+        }
+        return;
+      }
+
+      const almost = almostMsg(item, guess);
+      if (almost && !isCorrect(item, guess)) {
+        state.tries += 1; state.streak = 0; $("streak").textContent = "0";
+        sadly();
+        $("feedback").className = "feedback hint";
+        if (state.tries < 2) {
+          $("feedback").textContent = almost + " Try the actual capital!";
+          return;
+        }
+        state.missed.push({ item, guess });
+        markResult(item.code, false, false);
+        requeue(item);
+        $("feedback").textContent = almost;
+        $("teachBlock").classList.remove("hide"); $("where").classList.remove("hide");
+        setPhase("practice");
+        return;
+      }
+
+      if (isCorrect(item, guess)) {
+        const first = state.tries === 0 && state.hints === 0;
+        state.score += 1; state.streak += 1;
+        $("score").textContent = state.score; $("streak").textContent = state.streak;
+        markResult(item.code, first, true);
+        $("feedback").className = "feedback ok";
+        $("feedback").textContent = "Yes! " + item.capital + " is the capital.";
+        celebrate();
+        $("teachBlock").classList.remove("hide"); $("where").classList.remove("hide");
+        finishRecap(true);
+        return;
+      }
+
+      state.tries += 1; state.streak = 0; $("streak").textContent = "0";
+      sadly();
+      if (state.tries < 2) {
+        $("feedback").className = "feedback bad";
+        $("feedback").textContent = "Not quite — have another go!";
+        $("guess").select();
+        return;
+      }
+      state.missed.push({ item, guess });
+      markResult(item.code, false, false);
+      requeue(item);
+      $("feedback").className = "feedback bad";
+      $("feedback").textContent = "It’s " + item.capital + ". Type it once to remember the spelling.";
+      $("teachBlock").classList.remove("hide"); $("where").classList.remove("hide");
+      setPhase("practice");
+    }
+
+    function onHint() {
+      if (state.phase !== "recall") return;
+      const cap = current().capital;
+      state.hints += 1;
+      let text;
+      if (state.hints === 1) text = "It starts with “" + cap[0].toUpperCase() + "”.";
+      else if (state.hints === 2) text = "It starts with “" + cap.slice(0, Math.min(3, cap.length)) + "”.";
+      else text = "Pattern: " + cap.replace(/[A-Za-zÀ-ÿ]/g, (ch, i) => (i === 0 || /[\s'\u2019-]/.test(cap[i-1]) ? ch : "_"));
+      $("feedback").className = "feedback hint";
+      $("feedback").textContent = text;
+      tone("hint");
+    }
+    function onSkip() {
+      if (state.phase !== "recall") return;
+      const item = current();
+      state.streak = 0; $("streak").textContent = "0";
+      state.missed.push({ item, guess: $("guess").value || "(skipped)" });
+      markResult(item.code, false, false);
+      requeue(item);
+      $("feedback").className = "feedback hint";
+      $("feedback").textContent = "It’s " + item.capital + ". Type it once to remember the spelling.";
+      $("teachBlock").classList.remove("hide"); $("where").classList.remove("hide");
+      setPhase("practice");
+      tone("hint");
+    }
+    function next() {
+      if (state.i >= state.queue.length - 1) return finish();
+      state.i += 1; deal();
+    }
+    function finish() {
+      showScreen("end");
+      const n = state.queue.length, s = state.score, pct = n ? s / n : 0;
+      $("endScore").textContent = s + "/" + n;
+      $("endTitle").textContent = pct === 1 ? "Perfect atlas!" : pct >= .8 ? "Capital star!" : pct >= .5 ? "Nice work!" : "Good start!";
+      const locked = pool().filter((c) => isMastered(c.code)).length;
+      $("endMsg").textContent = (pct === 1
+        ? "Every one nailed."
+        : "Read the hooks and facts on the ones you missed — then type them again.") + " Locked in on this list: " + locked + "/" + pool().length + ".";
+      const box = $("missed"); box.innerHTML = "";
+      if (state.missed.length) {
+        const h = document.createElement("p"); h.style.fontWeight = "800"; h.textContent = "A quick review:"; box.appendChild(h);
+        const seen = new Set();
+        state.missed.forEach(({ item, guess }) => {
+          if (seen.has(item.code)) return; seen.add(item.code);
+          const d = document.createElement("details");
+          const sum = document.createElement("summary");
+          sum.textContent = item.flag + " " + item.name + " — " + item.capital;
+          const p = document.createElement("p");
+          p.innerHTML = ""; // filled safely below
+          const you = document.createElement("div");
+          you.textContent = guess && guess !== "(skipped)" ? "You tried: " + guess : "You asked to see it.";
+          const say = document.createElement("div"); say.textContent = "Say it: “" + item.say + "”";
+          const hook = document.createElement("div"); hook.style.marginTop = "6px"; hook.textContent = "💡 " + item.hook;
+          const fact = document.createElement("div"); fact.style.marginTop = "6px"; fact.textContent = "✨ " + item.fact;
+          p.append(you, say, hook, fact);
+          if (item.watch) { const w = document.createElement("div"); w.style.marginTop = "6px"; w.textContent = "⚠️ " + item.watch; p.append(w); }
+          d.append(sum, p); box.append(d);
+        });
+        $("reviewBtn").style.display = "block";
+      } else $("reviewBtn").style.display = "none";
+      if (pct >= .8) burst();
+    }
+
+    function renderList() {
+      const q = ($("listSearch").value || "").trim().toLowerCase();
+      const list = pool().filter((c) => {
+        if (!q) return true;
+        return (c.name + " " + c.capital + " " + (c.aka||[]).join(" ")).toLowerCase().includes(q);
+      });
+      $("listTitle").textContent = "Study list · " + list.length + " countries";
+      const box = $("slist"); box.innerHTML = "";
+      list.forEach((c) => {
+        const d = document.createElement("details");
+        const sum = document.createElement("summary");
+        sum.textContent = (isMastered(c.code) ? "★ " : "") + c.flag + " " + c.name + " — " + c.capital;
+        const p = document.createElement("p");
+        const bits = [
+          c.where,
+          "Say it: “" + c.say + "”",
+          "💡 " + c.hook,
+          "✨ " + c.fact,
+        ];
+        if (c.watch) bits.push("⚠️ " + c.watch);
+        p.textContent = bits.join("\n\n");
+        p.style.whiteSpace = "pre-wrap";
+        d.append(sum, p); box.append(d);
+      });
+    }
+
+    function speakCapital() {
+      const item = current();
+      if (!item || !window.speechSynthesis) return;
+      try {
+        const u = new SpeechSynthesisUtterance(item.capital);
+        u.rate = 0.9; u.lang = "en-GB";
+        speechSynthesis.cancel(); speechSynthesis.speak(u);
+      } catch (_) {}
+    }
+
+    /* sound + confetti */
+    let audioCtx;
+    function tone(kind) {
+      if (state.muted) return;
+      try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+        if (kind === "ok") { o.type="triangle"; o.frequency.setValueAtTime(523, now); o.frequency.setValueAtTime(784, now+0.09); g.gain.setValueAtTime(0.06, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.28); o.start(now); o.stop(now+0.3); }
+        else if (kind === "bad") { o.type="sine"; o.frequency.setValueAtTime(220, now); o.frequency.linearRampToValueAtTime(160, now+0.16); g.gain.setValueAtTime(0.04, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.2); o.start(now); o.stop(now+0.22); }
+        else { o.type="sine"; o.frequency.value=440; g.gain.setValueAtTime(0.03, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.12); o.start(now); o.stop(now+0.12); }
+      } catch (_) {}
+    }
+    function syncMute() { $("muteBtn").textContent = state.muted ? "🔇" : "🔊"; $("muteBtn").setAttribute("aria-label", state.muted ? "Unmute sounds" : "Mute sounds"); }
+    const cvs = $("confetti"), ctx = cvs.getContext("2d");
+    let bits = [];
+    function resize() { cvs.width = innerWidth; cvs.height = innerHeight; }
+    addEventListener("resize", resize); resize();
+    function burst() {
+      const colors = ["#ffc857","#2ec4b6","#ff6b6b","#fff7e8","#5ad4ff","#9b5de5"];
+      for (let i = 0; i < 90; i++) bits.push({ x: innerWidth/2+(Math.random()-0.5)*80, y: innerHeight*0.28, vx:(Math.random()-0.5)*9, vy:Math.random()*-8-2, g:0.18+Math.random()*0.08, w:6+Math.random()*6, h:8+Math.random()*8, r:Math.random()*6, vr:(Math.random()-0.5)*0.3, c:colors[i%colors.length], life:80+Math.random()*30 });
+    }
+    (function tick(){ ctx.clearRect(0,0,cvs.width,cvs.height); bits = bits.filter((b)=>b.life>0); bits.forEach((b)=>{ b.vy+=b.g; b.x+=b.vx; b.y+=b.vy; b.r+=b.vr; b.life-=1; ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.r); ctx.globalAlpha=Math.max(0,b.life/60); ctx.fillStyle=b.c; ctx.fillRect(-b.w/2,-b.h/2,b.w,b.h); ctx.restore(); }); requestAnimationFrame(tick); })();
+
+    $("form").addEventListener("submit", onCheck);
+    $("hintBtn").addEventListener("click", onHint);
+    $("skipBtn").addEventListener("click", onSkip);
+    $("nextBtn").addEventListener("click", next);
+    $("quizMeBtn").addEventListener("click", () => setPhase("recall"));
+    $("hearBtn").addEventListener("click", speakCapital);
+    $("playBtn").addEventListener("click", () => startRound());
+    $("againBtn").addEventListener("click", () => startRound());
+    $("homeBtn").addEventListener("click", () => { showScreen("start"); showBest(); });
+    $("listBtn").addEventListener("click", () => { showScreen("list"); $("listSearch").value=""; renderList(); $("listSearch").focus(); });
+    $("listBackBtn").addEventListener("click", () => { showScreen("start"); showBest(); });
+    $("listPlayBtn").addEventListener("click", () => startRound());
+    $("listSearch").addEventListener("input", renderList);
+    $("reviewBtn").addEventListener("click", () => {
+      const list = []; const seen = new Set();
+      state.missed.forEach(({item}) => { if (!seen.has(item.code)) { seen.add(item.code); list.push(item); } });
+      if (!list.length) return;
+      state.count = list.length;
+      startRound(shuffle(list));
+    });
+    $("muteBtn").addEventListener("click", () => { state.muted = !state.muted; localStorage.setItem("cq-mute", state.muted ? "1" : "0"); syncMute(); });
+
+    if (!window.CAPITALS || !window.CAPITALS.length) {
+      $("lede").textContent = "Couldn’t load the country list (data.js). Keep index.html and data.js in the same folder.";
+      $("playBtn").disabled = true;
+    } else { renderChips(); showBest(); syncMute(); }
+  </script>
+</body>
+</html>
