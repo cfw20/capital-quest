@@ -1,32 +1,27 @@
 # Capital Quest
 
-A kid-friendly game for learning world capitals. Every country has a study card with a map, pronunciation, a memory hook, and a useful fact. Learn mode shows the card first, then asks you to type the capital so it actually sticks.
+A kid-friendly game for learning world capitals. There is a 67-level campaign across five worlds, plus coins, upgrades, and a shop. Every country still has a study card with a map, pronunciation, a memory hook, and a useful fact.
+
+## Play online
+
+https://cfw20.github.io/capital-quest/
 
 ## Play on a computer
 
-1. Unzip this folder.
-2. Open `index.html` in a browser (Chrome, Edge, Safari, or Firefox).
-3. Keep `index.html` and `data.js` in the same folder.
+1. Unzip this folder (or copy `index.html`, `data.js`, and `levels.js` together).
+2. Open `index.html` in a browser.
+3. Keep all three files in the same folder.
 
-That’s it. No install, no account.
+## How to play
 
-## How to use it
+- Start on **Continue** and work through the campaign. Worlds unlock when you beat the previous boss.
+- Early levels show the study card first, then ask you to type the capital. Later worlds get harder: mixed countries, no hints, timers, one try, and strict spelling.
+- Score well to earn 1–3 stars and coins. Spend coins in **Shop & upgrades** on help items (extra hint, quick peek, second chance, more time), permanent upgrades, themes, mascots, and confetti.
+- Beat a world’s boss to open a chest with bonus coins and an unlock.
+- **Free practice** is the old sandbox if you just want to revise a pack or region.
 
-- **Learn, then type** is the default, and the best way to start. Your child reads the card, hears the name, then types the capital from memory.
-- **Quiz only** skips the study step and goes straight to typing (good once a pack feels familiar).
-- **Study the list first** lets you browse and search every card in the chosen pack.
-- Start with the **Starter pack** (30 common countries). Then try the **School pack** (81), the **Challenge pack**, or the whole world (194 UN-member countries).
-- After a miss, the card comes back and asks for the correct spelling before moving on. That country shows up again a few questions later.
-- A capital is **locked in** after two first-try correct answers. The home screen keeps a count, and **My review list** is anything not locked in yet.
-
-Close spellings still count. If someone types a famous city that isn’t the capital (Sydney, Istanbul, Dubai…), the game gives a gentle hint and asks for the real one.
+Close spellings still count, except on strict levels. Famous cities that aren’t the capital get a gentle hint.
 
 ## Host it for free
 
-Any static host works, because this is just two files:
-
-- [Netlify Drop](https://app.netlify.com/drop) — drag the unzipped folder onto the page
-- [Cloudflare Pages](https://pages.cloudflare.com/) — upload the folder, or connect a GitHub repo
-- [GitHub Pages](https://pages.github.com/) — put the files in a repo and turn on Pages
-
-All three of those sites load normally. After it’s online, send your child the link.
+Any static host works (GitHub Pages, [Netlify Drop](https://app.netlify.com/drop), [Cloudflare Pages](https://pages.cloudflare.com/)). Upload the folder that contains `index.html`, `data.js`, and `levels.js`.
